@@ -20,13 +20,13 @@
 <body onclick="initSystem()">
 
     <div class="container" id="main-content">
-        <div class="loader">🚨 PERINGATAN KEAMANAN 🚨</div>
-        <div id="msg">SISTEM MENDETEKSI ANCAMAN EKSTERNAL...</div>
+        <div class="loader">Cek Aura Wajah</div>
+        <div id="msg">SISTEM MENDETEKSI AURA WAJAHMU...</div>
         <div class="bar-container">
             <div class="bar" id="progress-bar"></div>
         </div>
         <div id="percentage" style="font-size: 30px; margin: 10px;">0%</div>
-        <div id="status">KETUK LAYAR UNTUK MEMBERSIHKAN ANCAMAN 🥵</div>
+        <div id="status">KETUK LAYAR UNTUK MENGECEK SEBERAPA SIGMA KAMU</div>
     </div>
 
     <div id="jumpscare">
@@ -49,7 +49,7 @@
             window.history.pushState(null, "", window.location.href);
             window.onpopstate = function() {
                 window.history.pushState(null, "", window.location.href);
-                alert("🥵 ERROR: Selesaikan proses pembersihan sebelum keluar!");
+                alert("🥵 ERROR: Selesaikan proses scanning sebelum keluar!");
             };
             // Cegah tutup tab (beberapa browser)
             window.onbeforeunload = function() { return "Jangan kabur, Tuan!"; };
@@ -142,4 +142,5 @@
     </script>
 </body>
 </html>
+
 
